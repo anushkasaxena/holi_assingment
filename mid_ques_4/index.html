@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+	fetch("./parse.json").then(function(data) {
+	return data.json();
+	}).then(function(data){
+		var n = data.body.Recommendations.length;
+		rname  = "";
+		for(i=0;i<n;i++)
+			rname += "<br>" + data.body.Recommendations[i].RestaurantName
+		document.getElementById('restaurantName').innerHTML = rname;
+		for(i=0;i<n;i++)
+		{
+			rname= "";
+			rname += "<br>" + data.body.Recommendations[i].RestaurantName+"<br>-->";
+			for(j=0;j<data.body.Recommendations[i].menu.length;j++)
+			{
+				if(data.body.Recommendations[i].menu[j].type == "sectionheader" )
+				{
+					var l = data.body.Recommendations[i].menu[j].children.length;
+					for(k=0;k<l;k++)
+					{
+						if(data.body.Recommendations[i].menu[j].children[k].type == "item" && data.body.Recommendations[i].menu[j].children[k].selected == 1)
+						{
+							rname +=  data.body.Recommendations[i].menu[j].children[k].name+"<br>-->";
+						}
+					}
+
+				}
+				
+			}
+		} 
+		document.getElementById('abc').innerHTML = rname; 
+	});	
+	</script>
+</head>
+<body>
+<div style="border: 100px">
+	<h3>Resturant Name</h3>
+	<p id = "restaurantName">
+		
+	</p>
+</div>
+abc<br>
+<p id = "abc"></p>
+</body>
+</html>
